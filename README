@@ -1,0 +1,75 @@
+README for Text::Glob 0.05
+
+=head1 NAME
+
+Text::Glob - match globbing patterns against text
+
+=head1 SYNOPSIS
+
+ use Text::Glob qw( match_glob glob_to_regex );
+
+ print "matched\n" if match_glob( "foo.*", "foo.bar" );
+
+ # prints foo.bar and foo.baz
+ my $regex = glob_to_regex( "foo.*" );
+ for ( qw( foo.bar foo.baz foo bar ) ) {
+     print "matched: $_\n" if /$regex/;
+ }
+
+
+
+=head1 INSTALLATION
+
+ perl Build.PL
+ perl Build test
+
+and if all goes well
+
+ perl Build install
+
+=head1 HISTORY
+
+What changed over the last 3 revisions
+
+=over
+
+=item 0.06    Monday 1st September, 2003
+
+	- port to Module::Build
+        - Nested alternations fix from Mike Benson
+	
+
+=item 0.05	15th August, 2002
+
+	- !match_glob("*.foo", "foo/.foo"); 
+	- test suite overhaul
+	- backslash expansion fixed
+	- /[+^$|]/ made less 'special'
+	- handle embedded newlines in glob patterns
+	- add tests for 'foo[abc]'
+	- Many thanks go to Nick Cleaton for finding these
+
+
+=item 0.04	14th August, 2002
+
+	- $Text::Glob::{strict_leading_dot,strict_wildcard_slash} from
+	  bug report from Nick Cleaton
+        - (quite poor) documentation of supported globbing constructs
+
+=back
+
+=head1 AUTHOR
+
+Richard Clamp <richardc@unixbeard.net>
+
+=head1 COPYRIGHT
+
+Copyright (C) 2002 Richard Clamp.  All Rights Reserved.
+
+This module is free software; you can redistribute it and/or modify it
+under the same terms as Perl itself.
+
+=head1 SEE ALSO
+
+L<File::Glob>, glob(3)
+

@@ -1,0 +1,15 @@
+--- #YAML:1.0
+name: Text-Glob
+version: 0.06
+license: perl
+distribution_type: module
+requires: {}
+recommends: {}
+build_requires:
+  Test::More: 0
+conflicts: {}
+provides:
+  Text::Glob:
+    file: lib/Text/Glob.pm
+    version: 0.06
+generated_by: Module::Build version 0.20
