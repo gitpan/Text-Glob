@@ -1,4 +1,7 @@
-cvs
+0.03
+	- complete work of 0.02 by escaping ) too. bug found by Andy Lester
+
+0.02	29th July, 2002
 	- fix handling of ( and ? tokens
 
 0.01	21st July 2002

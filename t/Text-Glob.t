@@ -26,4 +26,4 @@ ok( !match_glob( 'foo.{c,h}', 'foo.o' ) );
 ok(  match_glob( 'foo.\\{c,h}\\*', 'foo.\\{c,h}\\*' ), "\\escaping" );
 ok( !match_glob( 'foo.\\{c,h}\\*', 'foo.c' ) );
 
-ok(  match_glob( 'foo.(bar', 'foo.(bar'), "escape (" );
+ok(  match_glob( 'foo.(bar)', 'foo.(bar)'), "escape ()" );

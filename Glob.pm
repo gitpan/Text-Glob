@@ -2,7 +2,7 @@ package Text::Glob;
 use strict;
 use Exporter;
 use vars qw/$VERSION @ISA @EXPORT_OK/;
-$VERSION = '0.02';
+$VERSION = '0.03';
 @ISA = 'Exporter';
 @EXPORT_OK = qw( glob_to_regex match_glob );
 
@@ -11,11 +11,8 @@ sub glob_to_regex {
     my ($regex, $in_curlies, $escaping);
     local $_;
     for ($glob =~ m/(.)/g) {
-        if    ($_ eq '.') {
-            $regex .= "\\.";
-        }
-        elsif ($_ eq '(') {
-            $regex .= "\\(";
+        if ($_ eq '.' || $_ eq '(' || $_ eq ')') {
+            $regex .= "\\$_";
         }
         elsif ($_ eq '*') {
             $regex .= $escaping ? "\\*" :  ".*";
