@@ -3,7 +3,7 @@ use strict;
 use Exporter;
 use vars qw/$VERSION @ISA @EXPORT_OK
             $strict_leading_dot $strict_wildcard_slash/;
-$VERSION = '0.04';
+$VERSION = '0.05';
 @ISA = 'Exporter';
 @EXPORT_OK = qw( glob_to_regex match_glob );
 
@@ -17,14 +17,18 @@ sub glob_to_regex {
     my ($regex, $in_curlies, $escaping);
     local $_;
     my $first_byte = 1;
-    for ($glob =~ m/(.)/g) {
+    for ($glob =~ m/(.)/gs) {
         if ($first_byte) {
             if ($strict_leading_dot) {
                 $regex .= '(?=[^\.])' unless $_ eq '.';
             }
             $first_byte = 0;
         }
-        if ($_ eq '.' || $_ eq '(' || $_ eq ')') {
+        if ($_ eq '/') {
+            $first_byte = 1;
+        }
+        if ($_ eq '.' || $_ eq '(' || $_ eq ')' || $_ eq '|' ||
+            $_ eq '+' || $_ eq '^' || $_ eq '$' ) { # ' ) {
             $regex .= "\\$_";
         }
         elsif ($_ eq '*') {
@@ -46,13 +50,19 @@ sub glob_to_regex {
         elsif ($_ eq ',' && $in_curlies) {
             $regex .= $escaping ? "," : "|";
         }
-        elsif ($_ eq '\\') {
-            $regex .= "\\\\";
-            $escaping = 1;
+        elsif ($_ eq "\\") {
+            if ($escaping) {
+                $regex .= "\\\\";
+                $escaping = 0;
+            }
+            else {
+                $escaping = 1;
+            }
             next;
         }
         else {
             $regex .= $_;
+            $escaping = 0;
         }
         $escaping = 0;
     }
@@ -61,6 +71,7 @@ sub glob_to_regex {
 }
 
 sub match_glob {
+    print "# ", join(', ', map { "'$_'" } @_), "\n" if debug;
     my $glob = shift;
     my $regex = glob_to_regex $glob;
     local $_;

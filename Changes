@@ -1,3 +1,12 @@
+0.05	15th August, 2002
+	- !match_glob("*.foo", "foo/.foo"); 
+	- test suite overhaul
+	- backslash expansion fixed
+	- /[+^$|]/ made less 'special'
+	- handle embedded newlines in glob patterns
+	- add tests for 'foo[abc]'
+	- Many thanks go to Nick Cleaton for finding these
+
 0.04	14th August, 2002
 	- $Text::Glob::{strict_leading_dot,strict_wildcard_slash} from
 	  bug report from Nick Cleaton
