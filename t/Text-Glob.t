@@ -1,6 +1,6 @@
 #!perl -w
 use strict;
-use Test::More tests => 17;
+use Test::More tests => 23;
 
 BEGIN { use_ok('Text::Glob', qw( glob_to_regex match_glob ) ) }
 
@@ -27,3 +27,17 @@ ok(  match_glob( 'foo.\\{c,h}\\*', 'foo.\\{c,h}\\*' ), "\\escaping" );
 ok( !match_glob( 'foo.\\{c,h}\\*', 'foo.c' ) );
 
 ok(  match_glob( 'foo.(bar)', 'foo.(bar)'), "escape ()" );
+
+ok( !match_glob( '*.foo',  '.file.foo' ), "strict . rule fail" );
+ok(  match_glob( '.*.foo', '.file.foo' ), "strict . rule match" );
+{
+local $Text::Glob::strict_leading_dot;
+ok(  match_glob( '*.foo', '.file.foo' ), "relaxed . rule" );
+}
+
+ok( !match_glob( '*.fo?',   'foo/file.fob' ), "strict wildcard / fail" );
+ok(  match_glob( '*/*.fo?', 'foo/file.fob' ), "strict wildcard / match" );
+{
+local $Text::Glob::strict_wildcard_slash;
+ok(  match_glob( '*.fo?', 'foo/file.fob' ), "relaxed wildcard /" );
+}

@@ -1,4 +1,9 @@
-0.03
+0.04	14th August, 2002
+	- $Text::Glob::{strict_leading_dot,strict_wildcard_slash} from
+	  bug report from Nick Cleaton
+        - (quite poor) documentation of supported globbing constructs
+
+0.03	2nd August, 2002
 	- complete work of 0.02 by escaping ) too. bug found by Andy Lester
 
 0.02	29th July, 2002

@@ -1,24 +1,39 @@
 package Text::Glob;
 use strict;
 use Exporter;
-use vars qw/$VERSION @ISA @EXPORT_OK/;
-$VERSION = '0.03';
+use vars qw/$VERSION @ISA @EXPORT_OK
+            $strict_leading_dot $strict_wildcard_slash/;
+$VERSION = '0.04';
 @ISA = 'Exporter';
 @EXPORT_OK = qw( glob_to_regex match_glob );
+
+$strict_leading_dot    = 1;
+$strict_wildcard_slash = 1;
+
+use constant debug => 0;
 
 sub glob_to_regex {
     my $glob = shift;
     my ($regex, $in_curlies, $escaping);
     local $_;
+    my $first_byte = 1;
     for ($glob =~ m/(.)/g) {
+        if ($first_byte) {
+            if ($strict_leading_dot) {
+                $regex .= '(?=[^\.])' unless $_ eq '.';
+            }
+            $first_byte = 0;
+        }
         if ($_ eq '.' || $_ eq '(' || $_ eq ')') {
             $regex .= "\\$_";
         }
         elsif ($_ eq '*') {
-            $regex .= $escaping ? "\\*" :  ".*";
+            $regex .= $escaping ? "\\*" :
+              $strict_wildcard_slash ? "[^/]*" : ".*";
         }
         elsif ($_ eq '?') {
-            $regex .= $escaping ? "\\?" :  ".";
+            $regex .= $escaping ? "\\?" :
+              $strict_wildcard_slash ? "[^/]" : ".";
         }
         elsif ($_ eq '{') {
             $regex .= $escaping ? "\\{" : "(";
@@ -41,7 +56,7 @@ sub glob_to_regex {
         }
         $escaping = 0;
     }
-    #print "# $glob $regex\n";
+    print "# $glob $regex\n" if debug;
     qr/^$regex$/;
 }
 
@@ -89,6 +104,47 @@ Returns the list of things which match the glob from the source list.
 
 Returns a compiled regex which is the equiavlent of the globbing
 pattern.
+
+=back
+
+=head1 SYNTAX
+
+The following metacharacters and rules are respected.
+
+=over
+
+=item C<*> - match zero or more characters
+
+C<a*> matches C<a>, C<aa>, C<aaaa> and many many more.
+
+=item C<?> - match exactly one character
+
+C<a?> matches C<aa>, but not C<a>, or C<aa>
+
+=item Character sets/ranges
+
+C<example.[ch]> matches C<example.c> and C<example.h>
+
+C<demo.[a-c]> matches C<demo.a>, C<demo.b>, and C<demo.c>
+
+=item alternation
+
+C<example.{foo,bar,baz}> matches C<example.foo>, C<example.bar>, and
+C<example.baz>
+
+=item leading . must be explictly matched
+
+C<*.foo> does not match C<.bar.foo>.  For this you must either specify
+the leading . in the glob pattern (C<.*.foo>), or set
+C<$Text::Glob::strict_leading_dot> to a false value while compiling
+the regex.
+
+=item C<*> and C<?> do not match /
+
+C<*.foo> does not match C<bar/baz.foo>.  For this you must either
+explicitly match the / in the glob (C<*/*.foo>), or set
+C<$Text::Glob::strict_wildcard_slash> to a false value with compiling
+the regex.
 
 =back
 
