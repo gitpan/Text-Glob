@@ -1,4 +1,4 @@
-README for Text::Glob 0.05
+README for Text::Glob 0.07
 
 =head1 NAME
 
@@ -33,6 +33,13 @@ What changed over the last 3 revisions
 
 =over
 
+=item 0.07	Friday 14th July, 2006
+
+	Explictly quote @ and %.  Though they don't really need it to work
+	normally, it's needed for when you roundtrip the
+	regex back into text (like File::Find::Rule does).
+
+
 =item 0.06    Monday 1st September, 2003
 
 	- port to Module::Build
@@ -48,13 +55,6 @@ What changed over the last 3 revisions
 	- handle embedded newlines in glob patterns
 	- add tests for 'foo[abc]'
 	- Many thanks go to Nick Cleaton for finding these
-
-
-=item 0.04	14th August, 2002
-
-	- $Text::Glob::{strict_leading_dot,strict_wildcard_slash} from
-	  bug report from Nick Cleaton
-        - (quite poor) documentation of supported globbing constructs
 
 =back
 
