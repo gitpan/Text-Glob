@@ -1,4 +1,4 @@
-README for Text::Glob 0.07
+README for Text::Glob 0.08
 
 =head1 NAME
 
@@ -33,6 +33,11 @@ What changed over the last 3 revisions
 
 =over
 
+=item 0.08	Wednesday 2nd May, 2007
+
+	Expose glob_to_regex_string (Joshua Hoblitt)
+
+
 =item 0.07	Friday 14th July, 2006
 
 	Explictly quote @ and %.  Though they don't really need it to work
@@ -45,17 +50,6 @@ What changed over the last 3 revisions
 	- port to Module::Build
         - Nested alternations fix from Mike Benson
 	
-
-=item 0.05	15th August, 2002
-
-	- !match_glob("*.foo", "foo/.foo"); 
-	- test suite overhaul
-	- backslash expansion fixed
-	- /[+^$|]/ made less 'special'
-	- handle embedded newlines in glob patterns
-	- add tests for 'foo[abc]'
-	- Many thanks go to Nick Cleaton for finding these
-
 =back
 
 =head1 AUTHOR
@@ -64,7 +58,7 @@ Richard Clamp <richardc@unixbeard.net>
 
 =head1 COPYRIGHT
 
-Copyright (C) 2002 Richard Clamp.  All Rights Reserved.
+Copyright (C) 2002, 2003, 2006, 2007 Richard Clamp.  All Rights Reserved.
 
 This module is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

@@ -3,9 +3,9 @@ use strict;
 use Exporter;
 use vars qw/$VERSION @ISA @EXPORT_OK
             $strict_leading_dot $strict_wildcard_slash/;
-$VERSION = '0.07';
+$VERSION = '0.08';
 @ISA = 'Exporter';
-@EXPORT_OK = qw( glob_to_regex match_glob );
+@EXPORT_OK = qw( glob_to_regex glob_to_regex_string match_glob );
 
 $strict_leading_dot    = 1;
 $strict_wildcard_slash = 1;
@@ -13,6 +13,13 @@ $strict_wildcard_slash = 1;
 use constant debug => 0;
 
 sub glob_to_regex {
+    my $glob = shift;
+    my $regex = glob_to_regex_string($glob);
+    return qr/^$regex$/;
+}
+
+sub glob_to_regex_string
+{
     my $glob = shift;
     my ($regex, $in_curlies, $escaping);
     local $_;
@@ -67,7 +74,8 @@ sub glob_to_regex {
         $escaping = 0;
     }
     print "# $glob $regex\n" if debug;
-    qr/^$regex$/;
+
+    return $regex;
 }
 
 sub match_glob {
@@ -114,6 +122,11 @@ Returns the list of things which match the glob from the source list.
 =item glob_to_regex( $glob )
 
 Returns a compiled regex which is the equiavlent of the globbing
+pattern.
+
+=item glob_to_regex_string( $glob )
+
+Returns a regex string which is the equiavlent of the globbing
 pattern.
 
 =back
@@ -170,7 +183,7 @@ Richard Clamp <richardc@unixbeard.net>
 
 =head1 COPYRIGHT
 
-Copyright (C) 2002 Richard Clamp.  All Rights Reserved.
+Copyright (C) 2002, 2003, 2006, 2007 Richard Clamp.  All Rights Reserved.
 
 This module is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.
