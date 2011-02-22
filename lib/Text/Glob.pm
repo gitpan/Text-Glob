@@ -3,7 +3,7 @@ use strict;
 use Exporter;
 use vars qw/$VERSION @ISA @EXPORT_OK
             $strict_leading_dot $strict_wildcard_slash/;
-$VERSION = '0.08';
+$VERSION = '0.09';
 @ISA = 'Exporter';
 @EXPORT_OK = qw( glob_to_regex glob_to_regex_string match_glob );
 
@@ -121,12 +121,12 @@ Returns the list of things which match the glob from the source list.
 
 =item glob_to_regex( $glob )
 
-Returns a compiled regex which is the equiavlent of the globbing
+Returns a compiled regex which is the equivalent of the globbing
 pattern.
 
 =item glob_to_regex_string( $glob )
 
-Returns a regex string which is the equiavlent of the globbing
+Returns a regex string which is the equivalent of the globbing
 pattern.
 
 =back
@@ -143,7 +143,7 @@ C<a*> matches C<a>, C<aa>, C<aaaa> and many many more.
 
 =item C<?> - match exactly one character
 
-C<a?> matches C<aa>, but not C<a>, or C<aa>
+C<a?> matches C<aa>, but not C<a>, or C<aaa>
 
 =item Character sets/ranges
 

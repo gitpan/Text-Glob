@@ -1,14 +1,21 @@
 ---
-name: Text-Glob
-version: 0.08
+abstract: 'match globbing patterns against text'
 author:
-  - Richard Clamp <richardc@unixbeard.net>
-abstract: match globbing patterns against text
-license: perl
+  - 'Richard Clamp <richardc@unixbeard.net>'
 build_requires:
   Test::More: 0
+configure_requires:
+  Module::Build: 0.36
+generated_by: 'Module::Build version 0.3603'
+license: perl
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.4.html
+  version: 1.4
+name: Text-Glob
 provides:
   Text::Glob:
     file: lib/Text/Glob.pm
-    version: 0.08
-generated_by: Module::Build version 0.25
+    version: 0.09
+resources:
+  license: http://dev.perl.org/licenses/
+version: 0.09
